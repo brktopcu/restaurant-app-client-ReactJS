@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Menu, Input, Button, Icon } from "semantic-ui-react";
+import { color } from "./Constants";
 
 export class Navbar extends Component {
   state = { activeItem: "restaurants" };
@@ -11,7 +12,7 @@ export class Navbar extends Component {
 
     return (
       <div>
-        <Menu color="teal" pointing secondary>
+        <Menu color={color} pointing secondary>
           <Menu.Item
             name="restaurants"
             active={activeItem === "restaurants"}
@@ -29,7 +30,7 @@ export class Navbar extends Component {
           />
           <Menu.Item position="right">
             <Input placeholder="Search..." />
-            <Button icon color="teal">
+            <Button icon color={color}>
               <Icon name="search" />
             </Button>
           </Menu.Item>
