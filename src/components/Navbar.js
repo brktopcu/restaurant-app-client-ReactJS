@@ -19,13 +19,13 @@ export class Navbar extends Component {
             onClick={this.handleItemClick}
           />
           <Menu.Item
-            name="messages"
-            active={activeItem === "messages"}
+            name="my reservations"
+            active={activeItem === "my reservations"}
             onClick={this.handleItemClick}
           />
           <Menu.Item
-            name="friends"
-            active={activeItem === "friends"}
+            name="favourites"
+            active={activeItem === "favourites"}
             onClick={this.handleItemClick}
           />
           <Menu.Item position="right">

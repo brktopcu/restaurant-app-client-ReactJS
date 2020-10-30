@@ -14,9 +14,10 @@ function App() {
               <Navbar />
             </Grid.Column>
           </Grid.Row>
+
           <Grid.Row>
-            <Grid.Column width={1}></Grid.Column>
-            <Grid.Column width={14}>
+            <Grid.Column width={2}></Grid.Column>
+            <Grid.Column width={13}>
               <AllRestaurants />
             </Grid.Column>
             <Grid.Column width={1}></Grid.Column>
