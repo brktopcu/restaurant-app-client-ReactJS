@@ -16,11 +16,9 @@ function App() {
           </Grid.Row>
 
           <Grid.Row>
-            <Grid.Column width={2}></Grid.Column>
-            <Grid.Column width={13}>
+            <Grid.Column width={16}>
               <AllRestaurants />
             </Grid.Column>
-            <Grid.Column width={1}></Grid.Column>
           </Grid.Row>
         </Grid>
       </Container>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu, Input, Button, Icon } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 import { color } from "./Constants";
 
 export class Navbar extends Component {
@@ -28,19 +28,12 @@ export class Navbar extends Component {
             active={activeItem === "favourites"}
             onClick={this.handleItemClick}
           />
-          <Menu.Item position="right">
-            <Input placeholder="Search..." />
-            <Button icon color={color}>
-              <Icon name="search" />
-            </Button>
-          </Menu.Item>
-          <Menu.Menu>
-            <Menu.Item
-              name="logout"
-              active={activeItem === "logout"}
-              onClick={this.handleItemClick}
-            />
-          </Menu.Menu>
+          <Menu.Item
+            name="logout"
+            active={activeItem === "logout"}
+            onClick={this.handleItemClick}
+            position="right"
+          />
         </Menu>
       </div>
     );

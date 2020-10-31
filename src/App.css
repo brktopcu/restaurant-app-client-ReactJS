@@ -17,3 +17,8 @@
 .App-link {
   color: #61dafb;
 }
+
+.searchIconButton {
+  color: white !important;
+  background: teal !important;
+}
