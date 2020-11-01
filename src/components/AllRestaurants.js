@@ -8,7 +8,7 @@ import {
   FormField,
   Input,
 } from "semantic-ui-react";
-import { color, getRestaurantUrl } from "./Constants";
+import { color, getRestaurantUrl, getSearchRestaurantUrl } from "./Constants";
 import axios from "axios";
 import SubMenu from "./SubMenu";
 
@@ -16,6 +16,8 @@ export class AllRestaurants extends Component {
   state = {
     restaurants: [],
     loading: false,
+    searchTerm: "",
+    searchResults: [],
   };
 
   componentDidMount() {
@@ -38,25 +40,47 @@ export class AllRestaurants extends Component {
   }
 
   renderCards = () => {
-    return (
-      <>
-        {this.state.restaurants.map((restaurant) => (
-          <div className="card" key={restaurant.restaurantId}>
-            <Card
-              image="no-image.jpg"
-              header={restaurant.restaurantName}
-              meta={restaurant.restaurantCategory}
-              extra={
-                <p>
-                  <Icon name="globe" /> {restaurant.restaurantCity}
-                </p>
-              }
-              color={color}
-            />
-          </div>
-        ))}
-      </>
-    );
+    if (this.state.searchResults.length === 0 && this.state.searchTerm === "") {
+      return (
+        <>
+          {this.state.restaurants.map((restaurant) => (
+            <div className="card" key={restaurant.restaurantId}>
+              <Card
+                image="no-image.jpg"
+                header={restaurant.restaurantName}
+                meta={restaurant.restaurantCategory}
+                extra={
+                  <p>
+                    <Icon name="globe" /> {restaurant.restaurantCity}
+                  </p>
+                }
+                color={color}
+              />
+            </div>
+          ))}
+        </>
+      );
+    } else if (this.state.searchResults.length !== 0) {
+      return (
+        <>
+          {this.state.searchResults.map((restaurant) => (
+            <div className="card" key={restaurant.restaurantId}>
+              <Card
+                image="no-image.jpg"
+                header={restaurant.restaurantName}
+                meta={restaurant.restaurantCategory}
+                extra={
+                  <p>
+                    <Icon name="globe" /> {restaurant.restaurantCity}
+                  </p>
+                }
+                color={color}
+              />
+            </div>
+          ))}
+        </>
+      );
+    }
   };
 
   renderNotFound = () => {
@@ -71,12 +95,37 @@ export class AllRestaurants extends Component {
     }
   };
 
+  handleSearchInputChange = (e) => {
+    this.setState({
+      searchTerm: e.target.value,
+      searchResults: [],
+    });
+  };
+
   renderSearchForm = () => {
     return (
       <Form
         style={{ width: "85%" }}
         onSubmit={() => {
           console.log("Hello from search form!");
+
+          this.setState({ loading: true }, () => {
+            axios.get(getSearchRestaurantUrl + this.state.searchTerm).then(
+              (response) => {
+                console.log("Response:", response);
+                this.setState({
+                  searchResults: response.data,
+                  loading: false,
+                });
+              },
+              (error) => {
+                this.setState({
+                  loading: false,
+                  searchResults: [],
+                });
+              }
+            );
+          });
         }}
       >
         <FormField>
@@ -86,6 +135,8 @@ export class AllRestaurants extends Component {
               icon: "search",
               className: "searchIconButton",
             }}
+            value={this.state.searchTerm}
+            onChange={this.handleSearchInputChange}
           />
         </FormField>
       </Form>

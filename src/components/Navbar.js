@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 import { color } from "./Constants";
 
 export class Navbar extends Component {
-  state = { activeItem: "restaurants" };
+  state = { activeItem: "all restaurants" };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -13,11 +14,14 @@ export class Navbar extends Component {
     return (
       <div>
         <Menu color={color} pointing secondary>
-          <Menu.Item
-            name="restaurants"
-            active={activeItem === "restaurants"}
-            onClick={this.handleItemClick}
-          />
+          <Link to="/">
+            <Menu.Item
+              name="all restaurants"
+              active={activeItem === "all restaurants"}
+              onClick={this.handleItemClick}
+            />
+          </Link>
+
           <Menu.Item
             name="my reservations"
             active={activeItem === "my reservations"}
