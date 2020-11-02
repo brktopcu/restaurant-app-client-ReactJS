@@ -11,6 +11,7 @@ import {
 import { color, getRestaurantUrl, getSearchRestaurantUrl } from "./Constants";
 import axios from "axios";
 import SubMenu from "./SubMenu";
+import { Link } from "react-router-dom";
 
 export class AllRestaurants extends Component {
   state = {
@@ -45,17 +46,19 @@ export class AllRestaurants extends Component {
         <>
           {this.state.restaurants.map((restaurant) => (
             <div className="card" key={restaurant.restaurantId}>
-              <Card
-                image="no-image.jpg"
-                header={restaurant.restaurantName}
-                meta={restaurant.restaurantCategory}
-                extra={
-                  <p>
-                    <Icon name="globe" /> {restaurant.restaurantCity}
-                  </p>
-                }
-                color={color}
-              />
+              <Link to={`/restaurant/${restaurant.restaurantId}`}>
+                <Card
+                  image="no-image.jpg"
+                  header={restaurant.restaurantName}
+                  meta={restaurant.restaurantCategory}
+                  extra={
+                    <p>
+                      <Icon name="globe" /> {restaurant.restaurantCity}
+                    </p>
+                  }
+                  color={color}
+                />
+              </Link>
             </div>
           ))}
         </>
@@ -65,17 +68,19 @@ export class AllRestaurants extends Component {
         <>
           {this.state.searchResults.map((restaurant) => (
             <div className="card" key={restaurant.restaurantId}>
-              <Card
-                image="no-image.jpg"
-                header={restaurant.restaurantName}
-                meta={restaurant.restaurantCategory}
-                extra={
-                  <p>
-                    <Icon name="globe" /> {restaurant.restaurantCity}
-                  </p>
-                }
-                color={color}
-              />
+              <Link to={`/restaurant/${restaurant.restaurantId}`}>
+                <Card
+                  image="no-image.jpg"
+                  header={restaurant.restaurantName}
+                  meta={restaurant.restaurantCategory}
+                  extra={
+                    <p>
+                      <Icon name="globe" /> {restaurant.restaurantCity}
+                    </p>
+                  }
+                  color={color}
+                />
+              </Link>
             </div>
           ))}
         </>
