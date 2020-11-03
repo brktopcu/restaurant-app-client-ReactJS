@@ -7,10 +7,17 @@ import {
   Form,
   FormField,
   Input,
+  Menu,
+  Dropdown,
 } from "semantic-ui-react";
-import { color, getRestaurantUrl, getSearchRestaurantUrl } from "./Constants";
+import {
+  color,
+  getRestaurantCategoriesUrl,
+  getRestaurantCitiesUrl,
+  getRestaurantUrl,
+  getSearchRestaurantUrl,
+} from "./Constants";
 import axios from "axios";
-import SubMenu from "./SubMenu";
 import { Link } from "react-router-dom";
 
 export class AllRestaurants extends Component {
@@ -19,13 +26,15 @@ export class AllRestaurants extends Component {
     loading: false,
     searchTerm: "",
     searchResults: [],
+    cityOptions: [],
+    categoryOptions: [],
   };
 
   componentDidMount() {
     this.setState({ loading: true }, () => {
       axios.get(getRestaurantUrl).then(
         (response) => {
-          console.log("Response:", response);
+          console.log("Restaurants:", response);
           this.setState({
             restaurants: response.data,
             loading: false,
@@ -37,6 +46,36 @@ export class AllRestaurants extends Component {
           });
         }
       );
+    });
+
+    axios.get(getRestaurantCitiesUrl).then((response) => {
+      console.log("Cities:", response);
+      let cityOptions = response.data.map((city) => {
+        return {
+          key: city,
+          text: city,
+          value: city,
+        };
+      });
+      console.log("cityOptions:", cityOptions);
+      this.setState({
+        cityOptions: cityOptions,
+      });
+    });
+
+    axios.get(getRestaurantCategoriesUrl).then((response) => {
+      console.log("Categories:", response);
+      let categoryOptions = response.data.map((category) => {
+        return {
+          key: category,
+          text: category,
+          value: category,
+        };
+      });
+      console.log("categoryOptions:", categoryOptions);
+      this.setState({
+        categoryOptions: categoryOptions,
+      });
     });
   }
 
@@ -148,6 +187,34 @@ export class AllRestaurants extends Component {
     );
   };
 
+  renderSubMenu = () => {
+    return (
+      <Menu fluid style={{ width: "105%" }} vertical>
+        <Menu.Item header>Filters</Menu.Item>
+        <Menu.Item>
+          <Dropdown
+            fluid
+            clearable
+            multiple
+            placeholder="Select a city"
+            options={this.state.cityOptions}
+            selection
+          />
+        </Menu.Item>
+        <Menu.Item>
+          <Dropdown
+            fluid
+            clearable
+            multiple
+            placeholder="Select cuisine"
+            options={this.state.categoryOptions}
+            selection
+          />
+        </Menu.Item>
+      </Menu>
+    );
+  };
+
   render() {
     return (
       <>
@@ -155,7 +222,7 @@ export class AllRestaurants extends Component {
           <Grid.Row>
             <Grid.Column width={3}>
               <Grid.Row>{this.renderSearchForm()}</Grid.Row>
-              <SubMenu />
+              {this.renderSubMenu()}
             </Grid.Column>
             <Grid.Column width={13}>
               <Card.Group stackable>{this.renderCards()}</Card.Group>
