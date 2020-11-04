@@ -27,7 +27,9 @@ export class AllRestaurants extends Component {
     searchTerm: "",
     searchResults: [],
     cityOptions: [],
+    cityFilter: [],
     categoryOptions: [],
+    categoryFilter: [],
   };
 
   componentDidMount() {
@@ -80,51 +82,46 @@ export class AllRestaurants extends Component {
   }
 
   renderCards = () => {
-    if (this.state.searchResults.length === 0 && this.state.searchTerm === "") {
-      return (
-        <>
-          {this.state.restaurants.map((restaurant) => (
-            <div className="card" key={restaurant.restaurantId}>
-              <Link to={`/restaurant/${restaurant.restaurantId}`}>
-                <Card
-                  image="no-image.jpg"
-                  header={restaurant.restaurantName}
-                  meta={restaurant.restaurantCategory}
-                  extra={
-                    <p>
-                      <Icon name="globe" /> {restaurant.restaurantCity}
-                    </p>
-                  }
-                  color={color}
-                />
-              </Link>
-            </div>
-          ))}
-        </>
-      );
-    } else if (this.state.searchResults.length !== 0) {
-      return (
-        <>
-          {this.state.searchResults.map((restaurant) => (
-            <div className="card" key={restaurant.restaurantId}>
-              <Link to={`/restaurant/${restaurant.restaurantId}`}>
-                <Card
-                  image="no-image.jpg"
-                  header={restaurant.restaurantName}
-                  meta={restaurant.restaurantCategory}
-                  extra={
-                    <p>
-                      <Icon name="globe" /> {restaurant.restaurantCity}
-                    </p>
-                  }
-                  color={color}
-                />
-              </Link>
-            </div>
-          ))}
-        </>
-      );
+    let restaurantsShown = [];
+
+    if (this.state.searchResults.length !== 0) {
+      restaurantsShown = this.state.searchResults;
+    } else if (this.state.cityFilter.length !== 0) {
+      restaurantsShown = this.state.restaurants.filter((item) => {
+        return this.state.cityFilter.includes(item.restaurantCity);
+      });
+    } else if (this.state.categoryFilter.length !== 0) {
+      restaurantsShown = this.state.restaurants.filter((item) => {
+        return this.state.categoryFilter.includes(item.restaurantCategory);
+      });
+    } else if (
+      this.state.searchResults.length === 0 &&
+      this.state.searchTerm === ""
+    ) {
+      restaurantsShown = this.state.restaurants;
     }
+
+    return (
+      <>
+        {restaurantsShown.map((restaurant) => (
+          <div className="card" key={restaurant.restaurantId}>
+            <Link to={`/restaurant/${restaurant.restaurantId}`}>
+              <Card
+                image="no-image.jpg"
+                header={restaurant.restaurantName}
+                meta={restaurant.restaurantCategory}
+                extra={
+                  <p>
+                    <Icon name="globe" /> {restaurant.restaurantCity}
+                  </p>
+                }
+                color={color}
+              />
+            </Link>
+          </div>
+        ))}
+      </>
+    );
   };
 
   renderNotFound = () => {
@@ -143,6 +140,20 @@ export class AllRestaurants extends Component {
     this.setState({
       searchTerm: e.target.value,
       searchResults: [],
+    });
+  };
+
+  handleCityFilterChange = (event, data) => {
+    console.log(data.value);
+    this.setState({
+      cityFilter: data.value,
+    });
+  };
+
+  handleCategoryFilterChange = (event, data) => {
+    console.log(data.value);
+    this.setState({
+      categoryFilter: data.value,
     });
   };
 
@@ -199,6 +210,7 @@ export class AllRestaurants extends Component {
             placeholder="Select a city"
             options={this.state.cityOptions}
             selection
+            onChange={this.handleCityFilterChange}
           />
         </Menu.Item>
         <Menu.Item>
@@ -209,6 +221,7 @@ export class AllRestaurants extends Component {
             placeholder="Select cuisine"
             options={this.state.categoryOptions}
             selection
+            onChange={this.handleCategoryFilterChange}
           />
         </Menu.Item>
       </Menu>
