@@ -86,13 +86,29 @@ export class AllRestaurants extends Component {
 
     if (this.state.searchResults.length !== 0) {
       restaurantsShown = this.state.searchResults;
-    } else if (this.state.cityFilter.length !== 0) {
+    } else if (
+      this.state.cityFilter.length !== 0 &&
+      this.state.categoryFilter.length === 0
+    ) {
       restaurantsShown = this.state.restaurants.filter((item) => {
         return this.state.cityFilter.includes(item.restaurantCity);
       });
-    } else if (this.state.categoryFilter.length !== 0) {
+    } else if (
+      this.state.categoryFilter.length !== 0 &&
+      this.state.cityFilter.length === 0
+    ) {
       restaurantsShown = this.state.restaurants.filter((item) => {
         return this.state.categoryFilter.includes(item.restaurantCategory);
+      });
+    } else if (
+      this.state.categoryFilter.length !== 0 &&
+      this.state.cityFilter.length !== 0
+    ) {
+      restaurantsShown = this.state.restaurants.filter((item) => {
+        return (
+          this.state.categoryFilter.includes(item.restaurantCategory) &&
+          this.state.cityFilter.includes(item.restaurantCity)
+        );
       });
     } else if (
       this.state.searchResults.length === 0 &&
