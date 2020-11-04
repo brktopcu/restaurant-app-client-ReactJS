@@ -19,6 +19,7 @@ export class Navbar extends Component {
               name="all restaurants"
               active={activeItem === "all restaurants"}
               onClick={this.handleItemClick}
+              as="div"
             />
           </Link>
 
