@@ -9,6 +9,7 @@ import {
   Input,
   Menu,
   Dropdown,
+  Rating,
 } from "semantic-ui-react";
 import {
   color,
@@ -30,6 +31,7 @@ export class AllRestaurants extends Component {
     cityFilter: [],
     categoryOptions: [],
     categoryFilter: [],
+    ratingFilter: 0,
   };
 
   componentDidMount() {
@@ -110,10 +112,11 @@ export class AllRestaurants extends Component {
           this.state.cityFilter.includes(item.restaurantCity)
         );
       });
-    } else if (
-      this.state.searchResults.length === 0 &&
-      this.state.searchTerm === ""
-    ) {
+    } else if (this.state.ratingFilter !== 0) {
+      restaurantsShown = this.state.restaurants.filter((item) => {
+        return this.state.ratingFilter <= item.restaurantRating;
+      });
+    } else {
       restaurantsShown = this.state.restaurants;
     }
 
@@ -128,6 +131,13 @@ export class AllRestaurants extends Component {
                 meta={restaurant.restaurantCategory}
                 extra={
                   <p>
+                    <Rating
+                      icon="star"
+                      defaultRating={restaurant.restaurantRating}
+                      maxRating={5}
+                      disabled
+                    />
+                    <br></br>
                     <Icon name="globe" /> {restaurant.restaurantCity}
                   </p>
                 }
@@ -171,6 +181,11 @@ export class AllRestaurants extends Component {
     this.setState({
       categoryFilter: data.value,
     });
+  };
+
+  handleRate = (event, data) => {
+    console.log("Rating:", data.rating);
+    this.setState({ ratingFilter: data.rating });
   };
 
   renderSearchForm = () => {
@@ -238,6 +253,17 @@ export class AllRestaurants extends Component {
             options={this.state.categoryOptions}
             selection
             onChange={this.handleCategoryFilterChange}
+          />
+        </Menu.Item>
+        <Menu.Item>
+          <h5>Min rating:</h5>
+          <Rating
+            style={{ display: "flex" }}
+            icon="star"
+            maxRating={5}
+            rating={this.state.ratingFilter}
+            onRate={this.handleRate}
+            clearable
           />
         </Menu.Item>
       </Menu>
