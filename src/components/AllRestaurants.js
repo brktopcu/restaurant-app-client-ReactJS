@@ -126,11 +126,11 @@ export class AllRestaurants extends Component {
           <div className="card" key={restaurant.restaurantId}>
             <Link to={`/restaurant/${restaurant.restaurantId}`}>
               <Card
-                image="no-image.jpg"
+                image="/no-image.jpg"
                 header={restaurant.restaurantName}
                 meta={restaurant.restaurantCategory}
                 extra={
-                  <p>
+                  <div>
                     <Rating
                       icon="star"
                       defaultRating={restaurant.restaurantRating}
@@ -139,7 +139,7 @@ export class AllRestaurants extends Component {
                     />
                     <br></br>
                     <Icon name="globe" /> {restaurant.restaurantCity}
-                  </p>
+                  </div>
                 }
                 color={color}
               />
