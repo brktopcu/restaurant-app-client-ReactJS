@@ -99,7 +99,7 @@ export class RestaurantDetails extends Component {
             </Grid.Row>
             <Grid.Row>
               <Button style={{ marginLeft: "10px" }} color={color}>
-                Rezervasyon Yap
+                Rezervasyon Yap...
               </Button>
             </Grid.Row>
           </Grid>
