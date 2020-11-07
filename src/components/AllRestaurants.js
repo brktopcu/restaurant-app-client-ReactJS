@@ -137,6 +137,9 @@ export class AllRestaurants extends Component {
                       maxRating={5}
                       disabled
                     />
+                    <span style={{ marginLeft: "10px" }}>
+                      ({restaurant.restaurantRating})
+                    </span>
                     <br></br>
                     <Icon name="globe" /> {restaurant.restaurantCity}
                   </div>
@@ -188,6 +191,10 @@ export class AllRestaurants extends Component {
     this.setState({ ratingFilter: data.rating });
   };
 
+  handleRatingInputChange = (e) => {
+    this.setState({ ratingFilter: e.target.value / 10 });
+  };
+
   renderSearchForm = () => {
     return (
       <Form
@@ -216,7 +223,7 @@ export class AllRestaurants extends Component {
       >
         <FormField>
           <Input
-            placeholder="Search..."
+            placeholder="Ara..."
             action={{
               icon: "search",
               className: "searchIconButton",
@@ -232,13 +239,13 @@ export class AllRestaurants extends Component {
   renderSubMenu = () => {
     return (
       <Menu fluid style={{ width: "105%" }} vertical>
-        <Menu.Item header>Filters</Menu.Item>
+        <Menu.Item header>Filtrele</Menu.Item>
         <Menu.Item>
           <Dropdown
             fluid
             clearable
             multiple
-            placeholder="Select a city"
+            placeholder="Bir şehir seçin"
             options={this.state.cityOptions}
             selection
             onChange={this.handleCityFilterChange}
@@ -249,16 +256,24 @@ export class AllRestaurants extends Component {
             fluid
             clearable
             multiple
-            placeholder="Select cuisine"
+            placeholder="Bir kategori seçin"
             options={this.state.categoryOptions}
             selection
             onChange={this.handleCategoryFilterChange}
           />
         </Menu.Item>
         <Menu.Item>
-          <h5>Min rating:</h5>
+          <h5>En düşük puan: {this.state.ratingFilter}</h5>
+          <input
+            type="range"
+            min={0}
+            max={50}
+            value={this.state.ratingFilter * 10}
+            onChange={this.handleRatingInputChange}
+          />
+          <br />
           <Rating
-            style={{ display: "flex" }}
+            style={{ display: "flex", marginTop: "10px" }}
             icon="star"
             maxRating={5}
             rating={this.state.ratingFilter}

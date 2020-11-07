@@ -4,7 +4,7 @@ import { Menu } from "semantic-ui-react";
 import { color } from "./Constants";
 
 export class Navbar extends Component {
-  state = { activeItem: "all restaurants" };
+  state = { activeItem: "tüm restoranlar" };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -16,29 +16,37 @@ export class Navbar extends Component {
         <Menu color={color} pointing secondary>
           <Link to="/">
             <Menu.Item
-              name="all restaurants"
-              active={activeItem === "all restaurants"}
+              name="tüm restoranlar"
+              active={activeItem === "tüm restoranlar"}
               onClick={this.handleItemClick}
               as="div"
-            />
+            >
+              Tüm Restoranlar
+            </Menu.Item>
           </Link>
 
           <Menu.Item
-            name="my reservations"
-            active={activeItem === "my reservations"}
+            name="rezervasyonlarım"
+            active={activeItem === "rezervasyonlarım"}
             onClick={this.handleItemClick}
-          />
+          >
+            Rezervasyonlarım
+          </Menu.Item>
           <Menu.Item
-            name="favourites"
-            active={activeItem === "favourites"}
+            name="favorilerim"
+            active={activeItem === "favorilerim"}
             onClick={this.handleItemClick}
-          />
+          >
+            Favorilerim
+          </Menu.Item>
           <Menu.Item
-            name="logout"
-            active={activeItem === "logout"}
+            name="çıkış yap"
+            active={activeItem === "çıkış yap"}
             onClick={this.handleItemClick}
             position="right"
-          />
+          >
+            Çıkış Yap
+          </Menu.Item>
         </Menu>
       </div>
     );

@@ -9,11 +9,10 @@ import {
   Rating,
   Button,
   Divider,
-  Comment,
-  Form,
 } from "semantic-ui-react";
 import axios from "axios";
 import { color, getRestaurantByIdUrl } from "./Constants";
+import Comments from "./Comments";
 
 export class RestaurantDetails extends Component {
   state = {
@@ -63,7 +62,7 @@ export class RestaurantDetails extends Component {
                     console.log("Label clicked.");
                   }}
                 >
-                  See other photos...
+                  Diğer fotoğrafları görüntüle...
                 </Label>
               </Grid.Column>
             </Grid.Row>
@@ -93,11 +92,14 @@ export class RestaurantDetails extends Component {
                   maxRating={5}
                   disabled
                 />
+                <span style={{ marginLeft: "10px" }}>
+                  ({this.state.selectedRestaurant.restaurantRating})
+                </span>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Button style={{ marginLeft: "10px" }} color={color}>
-                Make Reservation
+                Rezervasyon Yap
               </Button>
             </Grid.Row>
           </Grid>
@@ -105,64 +107,7 @@ export class RestaurantDetails extends Component {
 
         <Divider />
 
-        <Segment textAlign="left" basic>
-          <Grid.Row>
-            <Header as="h2" textAlign="left" style={{ marginBottom: "30px" }}>
-              <Header.Content>Comments</Header.Content>
-            </Header>
-          </Grid.Row>
-
-          <Grid.Row>
-            <Comment.Group>
-              <Comment>
-                <Comment.Avatar
-                  as="a"
-                  src="https://randomuser.me/api/portraits/thumb/men/77.jpg"
-                />
-                <Comment.Content>
-                  <Comment.Author>Joe Henderson</Comment.Author>
-                  <Comment.Metadata>
-                    <div>1 day ago</div>
-                  </Comment.Metadata>
-                  <Comment.Text>
-                    <p>
-                      The hours, minutes and seconds stand as visible reminders
-                      that your effort put them all there.
-                    </p>
-                    <p>
-                      Preserve until your next run, when the watch lets you see
-                      how Impermanent your efforts are.
-                    </p>
-                  </Comment.Text>
-                </Comment.Content>
-              </Comment>
-
-              <Comment>
-                <Comment.Avatar
-                  as="a"
-                  src="https://randomuser.me/api/portraits/thumb/men/75.jpg"
-                />
-                <Comment.Content>
-                  <Comment.Author>Christian Rocha</Comment.Author>
-                  <Comment.Metadata>
-                    <div>2 days ago</div>
-                  </Comment.Metadata>
-                  <Comment.Text>I re-tweeted this.</Comment.Text>
-                </Comment.Content>
-              </Comment>
-
-              <Form reply>
-                <Form.TextArea />
-                <Button
-                  content="Add Comment"
-                  labelPosition="left"
-                  icon="edit"
-                  primary
-                />
-              </Form>
-            </Comment.Group>
-          </Grid.Row>
-        </Segment>
+        <Comments />
       </div>
     );
   }
