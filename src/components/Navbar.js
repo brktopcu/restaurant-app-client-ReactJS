@@ -4,7 +4,7 @@ import { Menu } from "semantic-ui-react";
 import { color } from "./Constants";
 
 export class Navbar extends Component {
-  state = { activeItem: "tüm restoranlar" };
+  state = { activeItem: "restoranlar" };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -16,12 +16,12 @@ export class Navbar extends Component {
         <Menu color={color} pointing secondary>
           <Link to="/">
             <Menu.Item
-              name="tüm restoranlar"
-              active={activeItem === "tüm restoranlar"}
+              name="restoranlar"
+              active={activeItem === "restoranlar"}
               onClick={this.handleItemClick}
               as="div"
             >
-              Tüm Restoranlar
+              Restoranlar
             </Menu.Item>
           </Link>
 

@@ -107,7 +107,7 @@ export class RestaurantDetails extends Component {
 
         <Divider />
 
-        <Comments />
+        <Comments restaurantId={this.props.match.params.restaurantId} />
       </div>
     );
   }
