@@ -9,16 +9,19 @@ import {
   Rating,
   Button,
   Divider,
+  Modal,
 } from "semantic-ui-react";
 import axios from "axios";
 import { color, getRestaurantByIdUrl } from "./Constants";
 import Comments from "./Comments";
+import Reservation from "./Reservation";
 
 export class RestaurantDetails extends Component {
   state = {
     selectedRestaurant: {},
     loading: false,
     notFound: false,
+    reservationModalOpen: false,
   };
 
   componentDidMount() {
@@ -98,9 +101,27 @@ export class RestaurantDetails extends Component {
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
-              <Button style={{ marginLeft: "10px" }} color={color}>
+              <Button
+                style={{ marginLeft: "10px" }}
+                color={color}
+                onClick={() => {
+                  this.setState({ reservationModalOpen: true });
+                }}
+              >
                 Rezervasyon Yap...
               </Button>
+              <Modal
+                closeIcon
+                onClose={() => this.setState({ reservationModalOpen: false })}
+                onOpen={() => this.setState({ reservationModalOpen: true })}
+                open={this.state.reservationModalOpen}
+                size="large"
+              >
+                <Modal.Header>Rezervasyon Yap</Modal.Header>
+                <Modal.Content>
+                  <Reservation restaurant={this.state.selectedRestaurant} />
+                </Modal.Content>
+              </Modal>
             </Grid.Row>
           </Grid>
         </Segment>
