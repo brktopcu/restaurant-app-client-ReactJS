@@ -1,10 +1,14 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Form } from "semantic-ui-react";
+import { Form, Message } from "semantic-ui-react";
 import { getTablesUrl, postReservationUrl } from "./Constants";
+import { Redirect } from "react-router-dom";
 
 export class Reservation extends Component {
   state = {
+    redirect: false,
+    messageVisible: false,
+    transitionVisible: true,
     guestCountOptions: [
       { key: "1", text: "1", value: "1" },
       { key: "2", text: "2", value: "2" },
@@ -67,8 +71,30 @@ export class Reservation extends Component {
         reservationNote: this.state.reservationNote,
         guestCount: this.state.guestCount,
       })
-      .then((response) => console.log("Reservation sent"))
+      .then((response) => {
+        console.log("Reservation sent");
+        this.setState({ messageVisible: true, redirect: true });
+      })
       .catch((error) => console.log("Failed to send"));
+  };
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to="/myreservations" />;
+    }
+  };
+
+  renderMessage = () => {
+    if (this.state.messageVisible) {
+      return (
+        <Message
+          success
+          onDismiss={this.handleDismiss}
+          header="Rezervasyon başarılı!"
+          content="Rezervasyonunuz başarıyla gerçekleştirildi."
+        />
+      );
+    }
   };
 
   render() {
@@ -142,6 +168,8 @@ export class Reservation extends Component {
 
           <Form.Button type="submit">Gönder</Form.Button>
         </Form>
+        {this.renderMessage()}
+        {this.renderRedirect()}
       </div>
     );
   }

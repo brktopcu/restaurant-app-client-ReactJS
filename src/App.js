@@ -2,6 +2,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import AllRestaurants from "./components/AllRestaurants";
 import RestaurantDetails from "./components/RestaurantDetails";
+import MyReservations from "./components/MyReservations";
 import { Container, Grid } from "semantic-ui-react";
 import { Switch, Route } from "react-router-dom";
 
@@ -24,6 +25,7 @@ function App() {
                   path="/restaurant/:restaurantId"
                   component={RestaurantDetails}
                 />
+                <Route path="/myreservations" component={MyReservations} />
               </Switch>
             </Grid.Column>
           </Grid.Row>
