@@ -18,3 +18,7 @@ export const getRestaurantCategoriesUrl =
 export const getAllCommentsUrl = "http://localhost:8080/api/comment/all/";
 
 export const postCommentUrl = "http://localhost:8080/api/comment/";
+
+export const getTablesUrl = "http://localhost:8080/api/table/all/";
+
+export const postReservationUrl = "http://localhost:8080/api/reservation/";
