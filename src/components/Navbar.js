@@ -6,46 +6,48 @@ import { color } from "./Constants";
 export class Navbar extends Component {
   state = { activeItem: "restoranlar" };
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-
   render() {
-    const { activeItem } = this.state;
-
     return (
       <div>
-        <Menu color={color} pointing secondary>
+        <Menu color={color} stackable>
           <Link to="/">
             <Menu.Item
               name="restoranlar"
-              active={activeItem === "restoranlar"}
               onClick={this.handleItemClick}
+              className="menuItem"
               as="div"
             >
               Restoranlar
             </Menu.Item>
           </Link>
 
-          <Menu.Item
-            name="rezervasyonlarım"
-            active={activeItem === "rezervasyonlarım"}
-            onClick={this.handleItemClick}
-          >
-            Rezervasyonlarım
-          </Menu.Item>
-          <Menu.Item
-            name="favorilerim"
-            active={activeItem === "favorilerim"}
-            onClick={this.handleItemClick}
-          >
-            Favorilerim
-          </Menu.Item>
+          <Link>
+            <Menu.Item
+              name="rezervasyonlarım"
+              className="menuItem"
+              onClick={this.handleItemClick}
+            >
+              Rezervasyonlarım
+            </Menu.Item>
+          </Link>
+
+          <Link>
+            <Menu.Item
+              name="favorilerim"
+              className="menuItem"
+              onClick={this.handleItemClick}
+            >
+              Favorilerim
+            </Menu.Item>
+          </Link>
+
           <Menu.Item
             name="çıkış yap"
-            active={activeItem === "çıkış yap"}
+            className="menuItem"
             onClick={this.handleItemClick}
             position="right"
           >
-            Çıkış Yap
+            <Link style={{ color: "black" }}>Çıkış Yap</Link>
           </Menu.Item>
         </Menu>
       </div>

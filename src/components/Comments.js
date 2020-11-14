@@ -10,7 +10,7 @@ import {
   Modal,
 } from "semantic-ui-react";
 import axios from "axios";
-import { color, getAllCommentsUrl, postCommentUrl } from "./Constants";
+import { getAllCommentsUrl, postCommentUrl } from "./Constants";
 
 export class Comments extends Component {
   state = {
@@ -99,7 +99,7 @@ export class Comments extends Component {
         </Modal.Content>
         <Modal.Actions>
           <Button
-            color="red"
+            primary
             onClick={() => this.setState({ ratingModalOpen: false })}
           >
             Tamam
@@ -173,7 +173,7 @@ export class Comments extends Component {
                 content="Yorum Yap"
                 labelPosition="right"
                 icon="edit"
-                color={color}
+                primary
               />
             </Form>
           </Comment.Group>

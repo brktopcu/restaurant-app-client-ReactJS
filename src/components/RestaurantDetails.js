@@ -12,7 +12,7 @@ import {
   Modal,
 } from "semantic-ui-react";
 import axios from "axios";
-import { color, getRestaurantByIdUrl } from "./Constants";
+import { getRestaurantByIdUrl } from "./Constants";
 import Comments from "./Comments";
 import Reservation from "./Reservation";
 
@@ -103,7 +103,7 @@ export class RestaurantDetails extends Component {
             <Grid.Row>
               <Button
                 style={{ marginLeft: "10px" }}
-                color={color}
+                primary
                 onClick={() => {
                   this.setState({ reservationModalOpen: true });
                 }}

@@ -20,5 +20,14 @@
 
 .searchIconButton {
   color: white !important;
-  background: teal !important;
+  background: #db2828 !important;
+}
+
+.menuItem:hover {
+  background-color: #f2f2f2 !important;
+}
+
+.customCard:hover {
+  opacity: 0.9;
+  transform: translateY(-2%);
 }

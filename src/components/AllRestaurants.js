@@ -126,6 +126,7 @@ export class AllRestaurants extends Component {
           <div className="card" key={restaurant.restaurantId}>
             <Link to={`/restaurant/${restaurant.restaurantId}`}>
               <Card
+                className="customCard"
                 image="/no-image.jpg"
                 header={restaurant.restaurantName}
                 meta={restaurant.restaurantCategory}

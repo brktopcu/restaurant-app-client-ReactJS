@@ -1,4 +1,4 @@
-export const color = "teal";
+export const color = "red";
 
 export const colorSecondary = "#f79361";
 
