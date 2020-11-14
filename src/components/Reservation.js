@@ -7,17 +7,18 @@ import { Redirect } from "react-router-dom";
 export class Reservation extends Component {
   state = {
     redirect: false,
-    messageVisible: false,
+    successMessageVisible: false,
+    errorMessageVisible: false,
     transitionVisible: true,
     guestCountOptions: [
-      { key: "1", text: "1", value: "1" },
-      { key: "2", text: "2", value: "2" },
-      { key: "3", text: "3", value: "3" },
-      { key: "4", text: "4", value: "4" },
-      { key: "5", text: "5", value: "5" },
-      { key: "6", text: "6", value: "6" },
-      { key: "7", text: "7", value: "7" },
-      { key: "8", text: "8", value: "8" },
+      { key: "1", text: "1", value: 1 },
+      { key: "2", text: "2", value: 2 },
+      { key: "3", text: "3", value: 3 },
+      { key: "4", text: "4", value: 4 },
+      { key: "5", text: "5", value: 5 },
+      { key: "6", text: "6", value: 6 },
+      { key: "7", text: "7", value: 7 },
+      { key: "8", text: "8", value: 8 },
     ],
     timePeriodOptions: [
       { key: "9:00-12:00", text: "9:00-12:00", value: "9:00-12:00" },
@@ -27,12 +28,13 @@ export class Reservation extends Component {
     ],
     tableData: [],
     tableOptions: [],
+    tableOptionsFiltered: [],
     reservationName: "",
     reservationLastName: "",
     reservationDate: "",
     reservationPeriod: "",
     reservationNote: "",
-    guestCount: "",
+    guestCount: 0,
     rtableId: "",
   };
 
@@ -47,6 +49,7 @@ export class Reservation extends Component {
               key: table.tableId,
               text: table.tableName,
               value: table.tableId,
+              capacity: table.tableCapacity,
             });
           });
         });
@@ -58,6 +61,7 @@ export class Reservation extends Component {
 
     this.setState({
       tableOptions: tableOptionsList,
+      tableOptionsFiltered: tableOptionsList,
     });
   }
 
@@ -73,9 +77,12 @@ export class Reservation extends Component {
       })
       .then((response) => {
         console.log("Reservation sent");
-        this.setState({ messageVisible: true, redirect: true });
+        this.setState({ successMessageVisible: true, redirect: true });
       })
-      .catch((error) => console.log("Failed to send"));
+      .catch((error) => {
+        console.log("Failed to send");
+        this.setState({ errorMessageVisible: true });
+      });
   };
 
   renderRedirect = () => {
@@ -84,8 +91,8 @@ export class Reservation extends Component {
     }
   };
 
-  renderMessage = () => {
-    if (this.state.messageVisible) {
+  renderSuccessMessage = () => {
+    if (this.state.successMessageVisible) {
       return (
         <Message
           success
@@ -95,6 +102,32 @@ export class Reservation extends Component {
         />
       );
     }
+  };
+
+  renderFailedMessage = () => {
+    if (this.state.errorMessageVisible) {
+      return (
+        <Message
+          error
+          onDismiss={this.handleDismiss}
+          header="Rezervasyon başarısız!"
+          content="Rezervasyon yapmak istediğiniz masa dolu. Lütfen farklı bir tarih veya masa seçin."
+        />
+      );
+    }
+  };
+
+  handleGuestCountChange = (e, data) => {
+    const { tableOptions } = this.state;
+    let newOptions;
+
+    this.setState({ guestCount: data.value }, () => {
+      newOptions = tableOptions.filter(
+        (option) => option.capacity >= this.state.guestCount
+      );
+
+      this.setState({ tableOptionsFiltered: newOptions });
+    });
   };
 
   render() {
@@ -126,12 +159,12 @@ export class Reservation extends Component {
               options={this.state.guestCountOptions}
               placeholder="Kişi sayısını girin"
               value={this.state.guestCount}
-              onChange={(e, data) => this.setState({ guestCount: data.value })}
+              onChange={this.handleGuestCountChange}
             />
             <Form.Select
               fluid
               label="Masa numarası"
-              options={this.state.tableOptions}
+              options={this.state.tableOptionsFiltered}
               placeholder="Masa numarasını seçin"
               value={this.state.rtableId}
               onChange={(e, data) => this.setState({ rtableId: data.value })}
@@ -166,9 +199,12 @@ export class Reservation extends Component {
             }}
           />
 
-          <Form.Button type="submit">Gönder</Form.Button>
+          <Form.Button primary type="submit">
+            Gönder
+          </Form.Button>
         </Form>
-        {this.renderMessage()}
+        {this.renderSuccessMessage()}
+        {this.renderFailedMessage()}
         {this.renderRedirect()}
       </div>
     );

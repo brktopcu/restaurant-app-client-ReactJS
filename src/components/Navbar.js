@@ -10,33 +10,24 @@ export class Navbar extends Component {
     return (
       <div>
         <Menu color={color} stackable>
-          <Link to="/">
+          <Link className="menuItem" to="/">
             <Menu.Item
               name="restoranlar"
               onClick={this.handleItemClick}
-              className="menuItem"
               as="div"
             >
               Restoranlar
             </Menu.Item>
           </Link>
 
-          <Link>
-            <Menu.Item
-              name="rezervasyonlarım"
-              className="menuItem"
-              onClick={this.handleItemClick}
-            >
+          <Link className="menuItem" to="/">
+            <Menu.Item name="rezervasyonlarım" onClick={this.handleItemClick}>
               Rezervasyonlarım
             </Menu.Item>
           </Link>
 
-          <Link>
-            <Menu.Item
-              name="favorilerim"
-              className="menuItem"
-              onClick={this.handleItemClick}
-            >
+          <Link className="menuItem" to="/">
+            <Menu.Item name="favorilerim" onClick={this.handleItemClick}>
               Favorilerim
             </Menu.Item>
           </Link>
@@ -47,7 +38,9 @@ export class Navbar extends Component {
             onClick={this.handleItemClick}
             position="right"
           >
-            <Link style={{ color: "black" }}>Çıkış Yap</Link>
+            <Link style={{ color: "black" }} to="/">
+              Çıkış Yap
+            </Link>
           </Menu.Item>
         </Menu>
       </div>
