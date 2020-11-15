@@ -4,6 +4,10 @@ import { Form, Message } from "semantic-ui-react";
 import { getTablesUrl, postReservationUrl } from "./Constants";
 import { Redirect } from "react-router-dom";
 
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { createTestAction } from "../actions/testAction";
+
 export class Reservation extends Component {
   state = {
     redirect: false,
@@ -82,6 +86,7 @@ export class Reservation extends Component {
       .catch((error) => {
         console.log("Failed to send");
         this.setState({ errorMessageVisible: true });
+        this.props.createTestAction(error);
       });
   };
 
@@ -217,4 +222,14 @@ export class Reservation extends Component {
   }
 }
 
-export default Reservation;
+Reservation.propTypes = {
+  createTestAction: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  const { test } = state;
+
+  return { test: test };
+};
+
+export default connect(mapStateToProps, { createTestAction })(Reservation);

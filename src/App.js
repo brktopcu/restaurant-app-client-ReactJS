@@ -5,33 +5,37 @@ import RestaurantDetails from "./components/RestaurantDetails";
 import MyReservations from "./components/MyReservations";
 import { Container, Grid } from "semantic-ui-react";
 import { Switch, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
 
 function App() {
   return (
-    <div className="App">
-      <Container>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={16}>
-              <Navbar />
-            </Grid.Column>
-          </Grid.Row>
+    <Provider store={store}>
+      <div className="App">
+        <Container>
+          <Grid>
+            <Grid.Row>
+              <Grid.Column width={16}>
+                <Navbar />
+              </Grid.Column>
+            </Grid.Row>
 
-          <Grid.Row>
-            <Grid.Column width={16}>
-              <Switch>
-                <Route path="/" component={AllRestaurants} exact />
-                <Route
-                  path="/restaurant/:restaurantId"
-                  component={RestaurantDetails}
-                />
-                <Route path="/myreservations" component={MyReservations} />
-              </Switch>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Container>
-    </div>
+            <Grid.Row>
+              <Grid.Column width={16}>
+                <Switch>
+                  <Route path="/" component={AllRestaurants} exact />
+                  <Route
+                    path="/restaurant/:restaurantId"
+                    component={RestaurantDetails}
+                  />
+                  <Route path="/myreservations" component={MyReservations} />
+                </Switch>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Container>
+      </div>
+    </Provider>
   );
 }
 
