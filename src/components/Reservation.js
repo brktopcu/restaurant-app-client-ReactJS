@@ -153,24 +153,9 @@ export class Reservation extends Component {
                 this.setState({ reservationLastName: e.target.value })
               }
             />
-            <Form.Select
-              fluid
-              label="Kişi sayısı"
-              options={this.state.guestCountOptions}
-              placeholder="Kişi sayısını girin"
-              value={this.state.guestCount}
-              onChange={this.handleGuestCountChange}
-            />
-            <Form.Select
-              fluid
-              label="Masa numarası"
-              options={this.state.tableOptionsFiltered}
-              placeholder="Masa numarasını seçin"
-              value={this.state.rtableId}
-              onChange={(e, data) => this.setState({ rtableId: data.value })}
-            />
           </Form.Group>
-          <Form.Group widths="equal">
+
+          <Form.Group widths="3">
             <Form.Input
               label="Tarih"
               type="date"
@@ -190,6 +175,26 @@ export class Reservation extends Component {
               }}
             />
           </Form.Group>
+
+          <Form.Group widths="3">
+            <Form.Select
+              fluid
+              label="Kişi sayısı"
+              options={this.state.guestCountOptions}
+              placeholder="Kişi sayısını girin"
+              value={this.state.guestCount}
+              onChange={this.handleGuestCountChange}
+            />
+            <Form.Select
+              fluid
+              label="Masa numarası"
+              options={this.state.tableOptionsFiltered}
+              placeholder="Masa numarasını seçin"
+              value={this.state.rtableId}
+              onChange={(e, data) => this.setState({ rtableId: data.value })}
+            />
+          </Form.Group>
+
           <Form.TextArea
             label="Notunuz"
             placeholder="Eklemek istediğiniz bir şey varsa lütfen bu alana girin."
@@ -203,6 +208,7 @@ export class Reservation extends Component {
             Gönder
           </Form.Button>
         </Form>
+
         {this.renderSuccessMessage()}
         {this.renderFailedMessage()}
         {this.renderRedirect()}

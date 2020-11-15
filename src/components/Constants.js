@@ -1,6 +1,6 @@
 export const color = "red";
 
-export const colorSecondary = "#f79361";
+export const colorHex = "#db2828";
 
 export const getRestaurantUrl = "http://localhost:8080/api/restaurant";
 
