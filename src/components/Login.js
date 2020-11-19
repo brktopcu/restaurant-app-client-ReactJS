@@ -36,7 +36,7 @@ export class Login extends Component {
               <Segment stacked>
                 <Form.Input
                   fluid
-                  icon="user"
+                  icon="mail"
                   iconPosition="left"
                   placeholder="E-posta adresi"
                   value={this.state.username}

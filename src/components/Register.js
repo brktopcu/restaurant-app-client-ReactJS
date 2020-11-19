@@ -7,9 +7,10 @@ import {
   Message,
   Segment,
 } from "semantic-ui-react";
-import { color } from "./Constants";
+import { color, registerUserUrl } from "./Constants";
 import { connect } from "react-redux";
 import { toggleRegisterAction } from "../actions/toggleRegisterAction";
+import axios from "axios";
 
 export class Register extends Component {
   state = {
@@ -18,6 +19,45 @@ export class Register extends Component {
     password: "",
     confirmPassword: "",
     phoneNumber: "",
+    error: {},
+    redirect: false,
+  };
+
+  handleRegister = (e) => {
+    e.preventDefault();
+    axios
+      .post(registerUserUrl, {
+        username: this.state.username,
+        fullName: this.state.fullName,
+        password: this.state.password,
+        confirmPassword: this.state.confirmPassword,
+        phoneNumber: this.state.phoneNumber,
+      })
+      .then((response) => {
+        console.log("User created");
+        this.props.toggleRegisterAction("login");
+      })
+      .catch((error) => {
+        this.setState({ error: error.response.data });
+      });
+  };
+
+  renderErrorMessages = () => {
+    let errorArray = [];
+
+    if (Object.keys(this.state.error).length !== 0) {
+      Object.keys(this.state.error).forEach((i) =>
+        errorArray.push(this.state.error[i])
+      );
+
+      return (
+        <Message
+          error
+          header="Lütfen aşağıdaki hataları düzeltin"
+          list={errorArray}
+        />
+      );
+    }
   };
 
   render() {
@@ -32,11 +72,11 @@ export class Register extends Component {
             <Header as="h2" color={color} textAlign="center">
               Yeni hesap açın
             </Header>
-            <Form size="large" onSubmit={this.handleLogin}>
+            <Form size="large" onSubmit={this.handleRegister}>
               <Segment stacked>
                 <Form.Input
                   fluid
-                  icon="user"
+                  icon="mail"
                   iconPosition="left"
                   placeholder="E-posta adresi"
                   value={this.state.username}
@@ -72,7 +112,7 @@ export class Register extends Component {
                 />
                 <Form.Input
                   fluid
-                  icon="user"
+                  icon="phone"
                   iconPosition="left"
                   placeholder="Telefon numarası"
                   value={this.state.phoneNumber}
@@ -86,6 +126,7 @@ export class Register extends Component {
                 </Button>
               </Segment>
             </Form>
+            {this.renderErrorMessages()}
             <Message>
               Zaten üye misiniz?{" "}
               <Button
