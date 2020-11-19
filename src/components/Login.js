@@ -7,18 +7,49 @@ import {
   Message,
   Segment,
 } from "semantic-ui-react";
-import { color } from "./Constants";
+import { color, loginUserUrl } from "./Constants";
 import { connect } from "react-redux";
 import { toggleRegisterAction } from "../actions/toggleRegisterAction";
-//import axios from "axios";
+import { setUserAction } from "../actions/setUserAction";
+import axios from "axios";
+import setJwtToken from "../securityUtils/setJwtToken";
+import jwt_decode from "jwt-decode";
+import { withRouter } from "react-router-dom";
 
 export class Login extends Component {
   state = {
     username: "",
     password: "",
+    showErrorMessage: false,
   };
 
-  handleLogin = () => {};
+  handleLogin = () => {
+    axios
+      .post(loginUserUrl, {
+        username: this.state.username,
+        password: this.state.password,
+      })
+      .then((response) => {
+        const { token } = response.data;
+        localStorage.setItem("jwtToken", token);
+        setJwtToken(token);
+        const decodedToken = jwt_decode(token);
+        this.props.setUserAction(decodedToken);
+        this.props.history.push("/allRestaurants");
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({ showErrorMessage: true });
+      });
+  };
+
+  renderErrorMessage = () => {
+    if (this.state.showErrorMessage) {
+      return (
+        <Message error>Hatalı giriş yaptınız. Lütfen tekrar deneyin.</Message>
+      );
+    }
+  };
 
   render() {
     return (
@@ -56,6 +87,7 @@ export class Login extends Component {
                 </Button>
               </Segment>
             </Form>
+            {this.renderErrorMessage()}
             <Message>
               Kayıtlı değil misiniz?{" "}
               <Button
@@ -76,4 +108,13 @@ export class Login extends Component {
   }
 }
 
-export default connect(null, { toggleRegisterAction })(Login);
+const mapStateToProps = (state) => {
+  return { userDetails: state.userDetails };
+};
+
+export default withRouter(
+  connect(mapStateToProps, {
+    toggleRegisterAction,
+    setUserAction,
+  })(Login)
+);

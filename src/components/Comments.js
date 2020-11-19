@@ -54,7 +54,7 @@ export class Comments extends Component {
             <Comment key={comment.commentId}>
               <Comment.Avatar as="a" src="/user-thumbnail.png" />
               <Comment.Content>
-                <Comment.Author>Joe Henderson</Comment.Author>
+                <Comment.Author>{comment.commentWriter}</Comment.Author>
                 <Comment.Metadata>
                   <div>{comment.commentDate}</div>
                   <div>
