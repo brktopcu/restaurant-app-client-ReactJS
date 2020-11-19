@@ -8,11 +8,18 @@ export class LandingPage extends Component {
   render() {
     return (
       <div>
-        <Grid centered style={{ height: "100vh" }}>
-          <Grid.Column width="8">
+        <Grid style={{ height: "100vh" }}>
+          <Grid.Column
+            width="8"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <Image style={{ width: "85%" }} src="/Landing.png" />
           </Grid.Column>
-          <Grid.Column floated="right" width="8">
+          <Grid.Column width="8">
             {this.props.registerForm === "login" && <Login />}
             {this.props.registerForm === "register" && <Register />}
           </Grid.Column>
