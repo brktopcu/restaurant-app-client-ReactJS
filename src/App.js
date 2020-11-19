@@ -7,6 +7,8 @@ import { Container, Grid } from "semantic-ui-react";
 import { Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
+import LandingPage from "./components/LandingPage";
+import Register from "./components/Register";
 
 function App() {
   return (
@@ -16,14 +18,22 @@ function App() {
           <Grid>
             <Grid.Row>
               <Grid.Column width={16}>
-                <Navbar />
+                <Switch>
+                  <Route path="/" exact />
+                  <Route path="/register" />
+                  <Route path="/allRestaurants" component={Navbar} />
+                  <Route path="/restaurant/:restaurantId" component={Navbar} />
+                  <Route path="/myreservations" component={Navbar} />
+                </Switch>
               </Grid.Column>
             </Grid.Row>
 
             <Grid.Row>
               <Grid.Column width={16}>
                 <Switch>
-                  <Route path="/" component={AllRestaurants} exact />
+                  <Route path="/" component={LandingPage} exact />
+                  <Route path="/register" component={Register} />
+                  <Route path="/allRestaurants" component={AllRestaurants} />
                   <Route
                     path="/restaurant/:restaurantId"
                     component={RestaurantDetails}

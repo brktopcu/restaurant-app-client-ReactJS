@@ -10,7 +10,7 @@ export class Navbar extends Component {
     return (
       <div>
         <Menu color={color} stackable>
-          <Link className="menuItem" to="/">
+          <Link className="menuItem" to="/allRestaurants">
             <Menu.Item
               name="restoranlar"
               onClick={this.handleItemClick}
