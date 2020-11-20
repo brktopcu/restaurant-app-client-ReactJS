@@ -26,3 +26,6 @@ export const postReservationUrl = "http://localhost:8080/api/reservation/";
 export const registerUserUrl = "http://localhost:8080/api/users/register";
 
 export const loginUserUrl = "http://localhost:8080/api/users/login";
+
+export const getUserReservationsUrl =
+  "http://localhost:8080/api/reservation/user/";

@@ -25,7 +25,6 @@ if (jwtToken) {
   const currentTime = Date.now();
   const firstTenDigits = Number(currentTime.toString().substr(0, 10));
 
-  console.log(firstTenDigits, decodedToken.exp);
   if (decodedToken.exp < firstTenDigits) {
     store.dispatch(logoutAction());
     window.location.href = "/";
