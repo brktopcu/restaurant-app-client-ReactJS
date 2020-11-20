@@ -3,8 +3,15 @@ import { Grid, Image } from "semantic-ui-react";
 import Login from "./Login";
 import Register from "./Register";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 export class LandingPage extends Component {
+  componentDidMount() {
+    if (this.props.userDetails.validToken) {
+      this.props.history.push("/allRestaurants");
+    }
+  }
+
   render() {
     return (
       <div>
@@ -30,9 +37,9 @@ export class LandingPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { registerForm } = state;
+  const { registerForm, userDetails } = state;
 
-  return { registerForm: registerForm };
+  return { registerForm: registerForm, userDetails: userDetails };
 };
 
-export default connect(mapStateToProps, null)(LandingPage);
+export default withRouter(connect(mapStateToProps, null)(LandingPage));

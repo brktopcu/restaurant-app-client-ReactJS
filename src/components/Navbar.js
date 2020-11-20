@@ -1,10 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Menu, Grid } from "semantic-ui-react";
+import { Menu, Grid, Dropdown } from "semantic-ui-react";
 import { color } from "./Constants";
+import { connect } from "react-redux";
+import { logoutAction } from "../actions/logoutAction";
 
 export class Navbar extends Component {
-  state = { activeItem: "restoranlar" };
+  state = { isLoggedIn: false };
+
+  logout = () => {
+    this.props.logoutAction();
+    window.location.href = "/";
+  };
 
   render() {
     return (
@@ -12,36 +19,31 @@ export class Navbar extends Component {
         <Grid.Column width={14}>
           <Menu borderless color={color} stackable>
             <Link className="menuItem" to="/allRestaurants">
-              <Menu.Item
-                name="restoranlar"
-                onClick={this.handleItemClick}
-                as="div"
-              >
+              <Menu.Item name="restoranlar" as="div">
                 Restoranlar
               </Menu.Item>
             </Link>
 
             <Link className="menuItem" to="/myreservations">
-              <Menu.Item name="rezervasyonlarım" onClick={this.handleItemClick}>
-                Rezervasyonlarım
-              </Menu.Item>
+              <Menu.Item name="rezervasyonlarım">Rezervasyonlarım</Menu.Item>
             </Link>
 
             <Link className="menuItem" to="/favourites">
-              <Menu.Item name="favorilerim" onClick={this.handleItemClick}>
-                Favorilerim
-              </Menu.Item>
+              <Menu.Item name="favorilerim">Favorilerim</Menu.Item>
             </Link>
 
-            <Menu.Item
-              name="çıkış yap"
-              className="menuItem"
-              onClick={this.handleItemClick}
-              position="right"
-            >
-              <Link style={{ color: "black" }} to="/">
-                Çıkış Yap
-              </Link>
+            <Menu.Item name="çıkış yap" position="right">
+              <h5>Merhaba, {this.props.userDetails.user.fullName}</h5>
+            </Menu.Item>
+
+            <Menu.Item>
+              <Dropdown icon="user">
+                <Dropdown.Menu>
+                  <Dropdown.Item>Profilim</Dropdown.Item>
+                  <Dropdown.Item>Yorumlarım</Dropdown.Item>
+                  <Dropdown.Item onClick={this.logout}>Çıkış Yap</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </Menu.Item>
           </Menu>
         </Grid.Column>
@@ -50,4 +52,10 @@ export class Navbar extends Component {
   }
 }
 
-export default Navbar;
+const mapStateToProps = (state) => {
+  return {
+    userDetails: state.userDetails,
+  };
+};
+
+export default connect(mapStateToProps, { logoutAction })(Navbar);

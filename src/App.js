@@ -13,6 +13,7 @@ import jwt_decode from "jwt-decode";
 import setJwtToken from "./securityUtils/setJwtToken";
 import { setUserAction } from "./actions/setUserAction";
 import { logoutAction } from "./actions/logoutAction";
+import SecuredRoute from "./securityUtils/SecureRoute";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -53,13 +54,19 @@ function App() {
               <Grid.Column width={16}>
                 <Switch>
                   <Route path="/" component={LandingPage} exact />
-                  <Route path="/allRestaurants" component={AllRestaurants} />
-                  <Route
+                  <SecuredRoute
+                    path="/allRestaurants"
+                    component={AllRestaurants}
+                  />
+                  <SecuredRoute
                     path="/restaurant/:restaurantId"
                     component={RestaurantDetails}
                   />
-                  <Route path="/myreservations" component={MyReservations} />
-                  <Route path="/favourites" component={Favourites} />
+                  <SecuredRoute
+                    path="/myreservations"
+                    component={MyReservations}
+                  />
+                  <SecuredRoute path="/favourites" component={Favourites} />
                 </Switch>
               </Grid.Column>
             </Grid.Row>
