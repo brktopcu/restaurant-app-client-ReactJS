@@ -9,6 +9,27 @@ import { Provider } from "react-redux";
 import store from "./store";
 import LandingPage from "./components/LandingPage";
 import Favourites from "./components/Favourites";
+import jwt_decode from "jwt-decode";
+import setJwtToken from "./securityUtils/setJwtToken";
+import { setUserAction } from "./actions/setUserAction";
+import { logoutAction } from "./actions/logoutAction";
+
+const jwtToken = localStorage.jwtToken;
+
+if (jwtToken) {
+  setJwtToken(jwtToken);
+  const decodedToken = jwt_decode(jwtToken);
+  store.dispatch(setUserAction(decodedToken));
+
+  const currentTime = Date.now();
+  const firstTenDigits = Number(currentTime.toString().substr(0, 10));
+
+  console.log(firstTenDigits, decodedToken.exp);
+  if (decodedToken.exp < firstTenDigits) {
+    store.dispatch(logoutAction());
+    window.location.href = "/";
+  }
+}
 
 function App() {
   return (
