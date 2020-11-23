@@ -2,30 +2,31 @@ export const color = "red";
 
 export const colorHex = "#db2828";
 
-export const getRestaurantUrl = "http://localhost:8080/api/restaurant";
+const rootUrl = "http://localhost:8080";
 
-export const getRestaurantByIdUrl = "http://localhost:8080/api/restaurant/";
+export const getRestaurantUrl = rootUrl + "/api/restaurant";
 
-export const getSearchRestaurantUrl =
-  "http://localhost:8080/api/restaurant/search/";
+export const getRestaurantByIdUrl = rootUrl + "/api/restaurant/";
 
-export const getRestaurantCitiesUrl =
-  "http://localhost:8080/api/restaurant/search/cities";
+export const getSearchRestaurantUrl = rootUrl + "/api/restaurant/search/";
+
+export const getRestaurantCitiesUrl = rootUrl + "/api/restaurant/search/cities";
 
 export const getRestaurantCategoriesUrl =
-  "http://localhost:8080/api/restaurant/search/categories";
+  rootUrl + "/api/restaurant/search/categories";
 
-export const getAllCommentsUrl = "http://localhost:8080/api/comment/all/";
+export const getAllCommentsUrl = rootUrl + "/api/comment/all/";
 
-export const postCommentUrl = "http://localhost:8080/api/comment/";
+export const postCommentUrl = rootUrl + "/api/comment/";
 
-export const getTablesUrl = "http://localhost:8080/api/table/all/";
+export const getTablesUrl = rootUrl + "/api/table/all/";
 
-export const postReservationUrl = "http://localhost:8080/api/reservation/";
+export const postReservationUrl = rootUrl + "/api/reservation/";
 
-export const registerUserUrl = "http://localhost:8080/api/users/register";
+export const registerUserUrl = rootUrl + "/api/users/register";
 
-export const loginUserUrl = "http://localhost:8080/api/users/login";
+export const loginUserUrl = rootUrl + "/api/users/login";
 
-export const getUserReservationsUrl =
-  "http://localhost:8080/api/reservation/user/";
+export const getUserReservationsUrl = rootUrl + "/api/reservation/user/";
+
+export const deleteReservationUrl = rootUrl + "/api/reservation/delete/";

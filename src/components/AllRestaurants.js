@@ -38,7 +38,6 @@ export class AllRestaurants extends Component {
     this.setState({ loading: true }, () => {
       axios.get(getRestaurantUrl).then(
         (response) => {
-          console.log("Restaurants:", response);
           this.setState({
             restaurants: response.data,
             loading: false,
@@ -53,7 +52,6 @@ export class AllRestaurants extends Component {
     });
 
     axios.get(getRestaurantCitiesUrl).then((response) => {
-      console.log("Cities:", response);
       let cityOptions = response.data.map((city) => {
         return {
           key: city,
@@ -61,14 +59,12 @@ export class AllRestaurants extends Component {
           value: city,
         };
       });
-      console.log("cityOptions:", cityOptions);
       this.setState({
         cityOptions: cityOptions,
       });
     });
 
     axios.get(getRestaurantCategoriesUrl).then((response) => {
-      console.log("Categories:", response);
       let categoryOptions = response.data.map((category) => {
         return {
           key: category,
@@ -76,7 +72,6 @@ export class AllRestaurants extends Component {
           value: category,
         };
       });
-      console.log("categoryOptions:", categoryOptions);
       this.setState({
         categoryOptions: categoryOptions,
       });
@@ -174,21 +169,18 @@ export class AllRestaurants extends Component {
   };
 
   handleCityFilterChange = (event, data) => {
-    console.log(data.value);
     this.setState({
       cityFilter: data.value,
     });
   };
 
   handleCategoryFilterChange = (event, data) => {
-    console.log(data.value);
     this.setState({
       categoryFilter: data.value,
     });
   };
 
   handleRate = (event, data) => {
-    console.log("Rating:", data.rating);
     this.setState({ ratingFilter: data.rating });
   };
 
@@ -201,12 +193,9 @@ export class AllRestaurants extends Component {
       <Form
         style={{ width: "85%" }}
         onSubmit={() => {
-          console.log("Hello from search form!");
-
           this.setState({ loading: true }, () => {
             axios.get(getSearchRestaurantUrl + this.state.searchTerm).then(
               (response) => {
-                console.log("Response:", response);
                 this.setState({
                   searchResults: response.data,
                   loading: false,

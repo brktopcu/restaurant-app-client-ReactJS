@@ -80,7 +80,6 @@ export class Reservation extends Component {
         guestCount: this.state.guestCount,
       })
       .then((response) => {
-        console.log("Reservation sent");
         this.setState({ successMessageVisible: true, redirect: true });
       })
       .catch((error) => {

@@ -34,7 +34,6 @@ export class Register extends Component {
         phoneNumber: this.state.phoneNumber,
       })
       .then((response) => {
-        console.log("User created");
         this.props.toggleRegisterAction("login");
       })
       .catch((error) => {

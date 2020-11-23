@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import { getUserReservationsUrl } from "./Constants";
+import { deleteReservationUrl, getUserReservationsUrl } from "./Constants";
 import { Button, Card } from "semantic-ui-react";
 
 export class MyReservations extends Component {
@@ -14,18 +14,27 @@ export class MyReservations extends Component {
       .get(getUserReservationsUrl + this.props.userDetails.user.id)
       .then((response) => {
         this.setState({ reservations: response.data });
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
+  deleteReservation = (event, data) => {
+    axios.delete(deleteReservationUrl + data.reservationid).then(() => {
+      let filteredReservations = [];
+      filteredReservations = this.state.reservations.filter((reservation) => {
+        return reservation.reservationId !== data.reservationid;
+      });
+      this.setState({ reservations: filteredReservations });
+    });
+  };
+
   renderReservationCards = (reservation) => {
     return (
       <Card key={reservation.reservationId}>
         <Card.Content>
-          <Card.Header>Restoran Adı</Card.Header>
+          <Card.Header>{reservation.restaurantName}</Card.Header>
           <Card.Meta>{this.props.userDetails.user.fullName}</Card.Meta>
           <Card.Description>
             <strong>Ad Soyad:</strong> {reservation.reservationName}{" "}
@@ -34,9 +43,17 @@ export class MyReservations extends Component {
           <Card.Description>
             <strong>Rezervasyon Tarihi:</strong> {reservation.reservationDate}
           </Card.Description>
+          <Card.Description>
+            <strong>Masa:</strong> {reservation.reservationTable}
+          </Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <Button basic color="red">
+          <Button
+            onClick={this.deleteReservation}
+            basic
+            color="red"
+            reservationid={reservation.reservationId}
+          >
             İptal Et
           </Button>
         </Card.Content>
