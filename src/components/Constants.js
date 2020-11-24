@@ -30,3 +30,10 @@ export const loginUserUrl = rootUrl + "/api/users/login";
 export const getUserReservationsUrl = rootUrl + "/api/reservation/user/";
 
 export const deleteReservationUrl = rootUrl + "/api/reservation/delete/";
+
+export const addFavouritesUrl = rootUrl + "/api/restaurant/favourite/";
+
+export const getFavouriteRestaurantsUrl = rootUrl + "/api/restaurant/favourite";
+
+export const deleteFavouriteRestaurantUrl =
+  rootUrl + "/api/restaurant/favourite/delete/";

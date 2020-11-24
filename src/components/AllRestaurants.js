@@ -10,9 +10,13 @@ import {
   Menu,
   Dropdown,
   Rating,
+  Label,
 } from "semantic-ui-react";
 import {
+  addFavouritesUrl,
   color,
+  deleteFavouriteRestaurantUrl,
+  getFavouriteRestaurantsUrl,
   getRestaurantCategoriesUrl,
   getRestaurantCitiesUrl,
   getRestaurantUrl,
@@ -32,6 +36,7 @@ export class AllRestaurants extends Component {
     categoryOptions: [],
     categoryFilter: [],
     ratingFilter: 0,
+    favouriteRestaurantIds: [],
   };
 
   componentDidMount() {
@@ -76,7 +81,47 @@ export class AllRestaurants extends Component {
         categoryOptions: categoryOptions,
       });
     });
+
+    axios
+      .get(getFavouriteRestaurantsUrl)
+      .then((response) => {
+        let favIds = response.data.map((rest) => {
+          return rest.restaurantId;
+        });
+        this.setState({ favouriteRestaurantIds: favIds });
+      })
+      .catch((error) => console.log(error));
   }
+
+  onFavouriteLabelClick = (event, data) => {
+    event.stopPropagation();
+    const { favouriteRestaurantIds } = this.state;
+    if (!favouriteRestaurantIds.includes(data.restid)) {
+      axios
+        .post(addFavouritesUrl + data.restid)
+        .then((response) => {
+          this.setState({
+            favouriteRestaurantIds: [
+              ...favouriteRestaurantIds,
+              response.data.restaurantId,
+            ],
+          });
+        })
+        .catch((error) => console.log(error));
+    } else {
+      const { favouriteRestaurantIds } = this.state;
+      axios
+        .delete(deleteFavouriteRestaurantUrl + data.restid)
+        .then((response) => {
+          this.setState({
+            favouriteRestaurantIds: favouriteRestaurantIds.filter((id) => {
+              return id !== data.restid;
+            }),
+          });
+        })
+        .catch((error) => console.log(error));
+    }
+  };
 
   renderCards = () => {
     let restaurantsShown = [];
@@ -119,6 +164,24 @@ export class AllRestaurants extends Component {
       <>
         {restaurantsShown.map((restaurant) => (
           <div className="card" key={restaurant.restaurantId}>
+            <Label
+              className="favouriteLabel"
+              icon={{
+                className: "favouriteLabel",
+                name: "heart",
+                color: this.state.favouriteRestaurantIds.includes(
+                  restaurant.restaurantId
+                )
+                  ? "red"
+                  : "grey",
+                onClick: this.onFavouriteLabelClick,
+                restid: restaurant.restaurantId,
+              }}
+              corner="left"
+              onClick={this.onFavouriteLabelClick}
+              size="large"
+              restid={restaurant.restaurantId}
+            />
             <Link to={`/restaurant/${restaurant.restaurantId}`}>
               <Card
                 className="customCard"

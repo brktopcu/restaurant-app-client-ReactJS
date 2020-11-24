@@ -29,5 +29,15 @@
 
 .customCard:hover {
   opacity: 0.9;
-  transform: translateY(-2%);
+  transform: translateY(-1%);
+}
+
+.favouriteLabel:hover {
+  opacity: 0.9;
+  transform: translateY(-1%);
+  cursor: pointer;
+}
+
+.favouriteLabel {
+  color: #cccccc !important;
 }
