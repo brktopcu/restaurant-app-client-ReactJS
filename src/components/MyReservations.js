@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { deleteReservationUrl, getUserReservationsUrl } from "./Constants";
-import { Button, Card } from "semantic-ui-react";
+import { Button, Card, Icon, Message } from "semantic-ui-react";
 
 export class MyReservations extends Component {
   state = {
@@ -61,6 +61,17 @@ export class MyReservations extends Component {
     );
   };
 
+  renderNoReservation = () => {
+    if (this.state.reservations.length === 0) {
+      return (
+        <Message style={{ marginLeft: "5%", width: "50%" }} warning icon>
+          <Icon name="address card" />
+          <p>Rezervasyonunuz bulunmamaktadır.</p>
+        </Message>
+      );
+    }
+  };
+
   render() {
     return (
       <div>
@@ -68,6 +79,7 @@ export class MyReservations extends Component {
           {this.state.reservations.map((reservation) => {
             return this.renderReservationCards(reservation);
           })}
+          {this.renderNoReservation()}
         </Card.Group>
       </div>
     );
