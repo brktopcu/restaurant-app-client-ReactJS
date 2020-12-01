@@ -32,6 +32,11 @@
   transform: translateY(-1%);
 }
 
+.ui.card > .image > img,
+.ui.cards > .card > .image > img {
+  height: 200px;
+}
+
 .favouriteLabel:hover {
   opacity: 0.9;
   transform: translateY(-1%);
