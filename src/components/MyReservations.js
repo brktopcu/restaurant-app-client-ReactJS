@@ -2,22 +2,26 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { deleteReservationUrl, getUserReservationsUrl } from "./Constants";
-import { Button, Card, Icon, Message } from "semantic-ui-react";
+import { Button, Card, Icon, Message, Loader } from "semantic-ui-react";
 
 export class MyReservations extends Component {
   state = {
     reservations: [],
+    isLoading: false,
   };
 
   componentDidMount() {
-    axios
-      .get(getUserReservationsUrl + this.props.userDetails.user.id)
-      .then((response) => {
-        this.setState({ reservations: response.data });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.setState({ isLoading: true }, () => {
+      axios
+        .get(getUserReservationsUrl + this.props.userDetails.user.id)
+        .then((response) => {
+          this.setState({ reservations: response.data, isLoading: false });
+        })
+        .catch((error) => {
+          console.log(error);
+          this.setState({ isLoading: false });
+        });
+    });
   }
 
   deleteReservation = (event, data) => {
@@ -62,13 +66,15 @@ export class MyReservations extends Component {
   };
 
   renderNoReservation = () => {
-    if (this.state.reservations.length === 0) {
+    if (this.state.reservations.length === 0 && !this.state.isLoading) {
       return (
         <Message style={{ marginLeft: "5%", width: "50%" }} warning icon>
           <Icon name="address card" />
           <p>Rezervasyonunuz bulunmamaktadır.</p>
         </Message>
       );
+    } else if (this.state.isLoading) {
+      return <Loader style={{ marginTop: "10%" }} active />;
     }
   };
 
