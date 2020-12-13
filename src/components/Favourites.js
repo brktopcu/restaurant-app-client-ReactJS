@@ -49,7 +49,11 @@ export class Favourites extends Component {
             <Link to={`/restaurant/${restaurant.restaurantId}`}>
               <Card
                 className="customCard"
-                image="/no-image.jpg"
+                image={{
+                  src: restaurant.thumbnail
+                    ? `data:image/jpeg;base64,${restaurant.thumbnail}`
+                    : "no-image.jpg",
+                }}
                 header={restaurant.restaurantName}
                 meta={restaurant.restaurantCategory}
                 extra={
