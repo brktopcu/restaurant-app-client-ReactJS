@@ -7,6 +7,7 @@ import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createTestAction } from "../actions/testAction";
+import dateformat from "dateformat";
 
 export class Reservation extends Component {
   state = {
@@ -74,7 +75,7 @@ export class Reservation extends Component {
       .post(postReservationUrl + this.state.rtableId, {
         reservationName: this.state.reservationName,
         reservationLastName: this.state.reservationLastName,
-        reservationDate: this.state.reservationDate,
+        reservationDate: dateformat(this.state.reservationDate, "dd-mm-yyyy"),
         reservationPeriod: this.state.reservationPeriod,
         reservationNote: this.state.reservationNote,
         guestCount: this.state.guestCount,
