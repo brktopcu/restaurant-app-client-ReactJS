@@ -39,7 +39,10 @@ export class Navbar extends Component {
             <Menu.Item>
               <Dropdown icon="user">
                 <Dropdown.Menu>
-                  <Dropdown.Item>Profilim</Dropdown.Item>
+                  <Link to="/profile">
+                    <Dropdown.Item>Profilim</Dropdown.Item>
+                  </Link>
+
                   <Dropdown.Item>Yorumlarım</Dropdown.Item>
                   <Dropdown.Item onClick={this.logout}>Çıkış Yap</Dropdown.Item>
                 </Dropdown.Menu>

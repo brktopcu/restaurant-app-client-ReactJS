@@ -14,6 +14,7 @@ import setJwtToken from "./securityUtils/setJwtToken";
 import { setUserAction } from "./actions/setUserAction";
 import { logoutAction } from "./actions/logoutAction";
 import SecuredRoute from "./securityUtils/SecureRoute";
+import Profile from "./components/Profile";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -45,6 +46,7 @@ function App() {
                   <Route path="/restaurant/:restaurantId" component={Navbar} />
                   <Route path="/myreservations" component={Navbar} />
                   <Route path="/favourites" component={Navbar} />
+                  <Route path="/profile" component={Navbar} />
                 </Switch>
               </Grid.Column>
             </Grid.Row>
@@ -66,6 +68,7 @@ function App() {
                     component={MyReservations}
                   />
                   <SecuredRoute path="/favourites" component={Favourites} />
+                  <SecuredRoute path="/profile" component={Profile} />
                 </Switch>
               </Grid.Column>
             </Grid.Row>
