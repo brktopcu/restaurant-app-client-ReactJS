@@ -15,6 +15,7 @@ import { setUserAction } from "./actions/setUserAction";
 import { logoutAction } from "./actions/logoutAction";
 import SecuredRoute from "./securityUtils/SecureRoute";
 import Profile from "./components/Profile";
+import AdminPanel from "./components/AdminPanel";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -46,6 +47,7 @@ function App() {
                   <Route path="/restaurant/:restaurantId" component={Navbar} />
                   <Route path="/myreservations" component={Navbar} />
                   <Route path="/favourites" component={Navbar} />
+                  <Route path="/admin" component={Navbar} />
                   <Route path="/profile" component={Navbar} />
                 </Switch>
               </Grid.Column>
@@ -68,6 +70,7 @@ function App() {
                     component={MyReservations}
                   />
                   <SecuredRoute path="/favourites" component={Favourites} />
+                  <SecuredRoute path="/admin" component={AdminPanel} />
                   <SecuredRoute path="/profile" component={Profile} />
                 </Switch>
               </Grid.Column>

@@ -13,6 +13,16 @@ export class Navbar extends Component {
     window.location.href = "/";
   };
 
+  renderAdminPanel = () => {
+    if (this.props.userDetails.user.role === "ADMIN") {
+      return (
+        <Link to="/admin">
+          <Dropdown.Item>Admin</Dropdown.Item>
+        </Link>
+      );
+    }
+  };
+
   render() {
     return (
       <div style={{ marginBottom: "20px" }}>
@@ -39,10 +49,10 @@ export class Navbar extends Component {
             <Menu.Item>
               <Dropdown icon="user">
                 <Dropdown.Menu>
+                  {this.renderAdminPanel()}
                   <Link to="/profile">
                     <Dropdown.Item>Profilim</Dropdown.Item>
                   </Link>
-
                   <Dropdown.Item>Yorumlarım</Dropdown.Item>
                   <Dropdown.Item onClick={this.logout}>Çıkış Yap</Dropdown.Item>
                 </Dropdown.Menu>
