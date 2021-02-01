@@ -9,7 +9,12 @@ import {
   Step,
   Form,
 } from "semantic-ui-react";
-import { getRestaurantUrl } from "./Constants";
+import {
+  getRestaurantUrl,
+  newRestaurantUrl,
+  saveMultipleTablesUrl,
+  saveRestaurantThumbnail,
+} from "./Constants";
 
 export class AdminPanel extends Component {
   state = {
@@ -17,6 +22,7 @@ export class AdminPanel extends Component {
     restaurants: [],
     addRestaurantModalOpen: false,
     step: 1,
+    savedRestaurant: {},
     steps: [
       {
         key: "Restoran Bilgileri",
@@ -97,26 +103,72 @@ export class AdminPanel extends Component {
         <Form>
           <Form.Field>
             <label>Restoran Adı</label>
-            <input placeholder="Restoran Adı" />
+            <input
+              value={this.state.restaurantName}
+              onChange={(e) =>
+                this.setState({ restaurantName: e.target.value })
+              }
+              placeholder="Restoran Adı"
+            />
           </Form.Field>
           <Form.Field>
             <label>Şehir</label>
-            <input placeholder="Şehir" />
+            <input
+              value={this.state.restaurantCity}
+              onChange={(e) =>
+                this.setState({ restaurantCity: e.target.value })
+              }
+              placeholder="Şehir"
+            />
           </Form.Field>
           <Form.Field>
             <label>Tam Adres</label>
-            <input placeholder="Tam Adres" />
+            <input
+              value={this.state.restaurantAddress}
+              onChange={(e) =>
+                this.setState({ restaurantAddress: e.target.value })
+              }
+              placeholder="Tam Adres"
+            />
           </Form.Field>
           <Form.Field>
             <label>Kategori</label>
-            <input placeholder="Kategori" />
+            <input
+              value={this.state.restaurantCategory}
+              onChange={(e) =>
+                this.setState({ restaurantCategory: e.target.value })
+              }
+              placeholder="Kategori"
+            />
           </Form.Field>
           <Form.Field>
             <label>Telefon No</label>
-            <input placeholder="Telefon No" />
+            <input
+              value={this.state.restaurantPhone}
+              onChange={(e) =>
+                this.setState({ restaurantPhone: e.target.value })
+              }
+              placeholder="Telefon No"
+            />
           </Form.Field>
 
-          <Button type="submit" onClick={() => this.setState({ step: 2 })}>
+          <Button
+            type="submit"
+            onClick={() => {
+              axios
+                .post(newRestaurantUrl, {
+                  restaurantName: this.state.restaurantName,
+                  restaurantCity: this.state.restaurantCity,
+                  restaurantAddress: this.state.restaurantAddress,
+                  restaurantCategory: this.state.restaurantCategory,
+                  phoneNumber: this.state.restaurantPhone,
+                })
+                .then((response) =>
+                  this.setState({ step: 2, savedRestaurant: response.data })
+                )
+                .catch((error) => console.log(error));
+            }}
+          >
             Restoranı Oluştur
           </Button>
         </Form>
@@ -130,13 +182,36 @@ export class AdminPanel extends Component {
         <Form>
           <Form.Field>
             <label>Masa Sayısı</label>
-            <input placeholder="Masa Sayısı" />
+            <input
+              value={this.state.tableCount}
+              onChange={(e) => this.setState({ tableCount: e.target.value })}
+              placeholder="Masa Sayısı"
+            />
           </Form.Field>
           <Form.Field>
             <label>Masa Kapasitesi</label>
-            <input placeholder="Masa Kapasitesi" />
+            <input
+              value={this.state.tableCapacity}
+              onChange={(e) => this.setState({ tableCapacity: e.target.value })}
+              placeholder="Masa Kapasitesi"
+            />
           </Form.Field>
-          <Button type="submit" onClick={() => this.setState({ step: 3 })}>
+          <Button
+            type="submit"
+            onClick={() => {
+              axios
+                .post(
+                  saveMultipleTablesUrl +
+                    this.state.tableCount +
+                    "/" +
+                    this.state.tableCapacity +
+                    "/" +
+                    this.state.savedRestaurant.restaurantId
+                )
+                .then(() => this.setState({ step: 3 }))
+                .catch((error) => console.log(error));
+            }}
+          >
             Masaları Ekle
           </Button>
         </Form>
@@ -145,18 +220,34 @@ export class AdminPanel extends Component {
   };
 
   renderThumbnailForm = () => {
+    const data = new FormData();
+    data.append("imageFile", this.state.imageFile);
+
     if (this.state.step === 3) {
       return (
         <Form encType="multipart/form-data">
           <Form.Field>
             <label>Fotoğraf</label>
-            <input name="imageFile" type="file" />
+            <input
+              name="imageFile"
+              onChange={(e) => this.setState({ imageFile: e.target.files[0] })}
+              type="file"
+            />
           </Form.Field>
           <Button
             type="submit"
-            onClick={() =>
-              this.setState({ addRestaurantModalOpen: false, step: 1 })
-            }
+            onClick={() => {
+              axios
+                .post(
+                  saveRestaurantThumbnail +
+                    this.state.savedRestaurant.restaurantId,
+                  data
+                )
+                .then(() =>
+                  this.setState({ addRestaurantModalOpen: false, step: 1 })
+                )
+                .catch((error) => console.log(error));
+            }}
           >
             Ekle
           </Button>
