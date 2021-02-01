@@ -8,8 +8,10 @@ import {
   Modal,
   Step,
   Form,
+  Confirm,
 } from "semantic-ui-react";
 import {
+  deleteRestaurantUrl,
   getRestaurantUrl,
   newRestaurantUrl,
   saveMultipleTablesUrl,
@@ -19,9 +21,11 @@ import {
 export class AdminPanel extends Component {
   state = {
     loading: false,
+    deleteRestaurantId: 0,
     restaurants: [],
     addRestaurantModalOpen: false,
     step: 1,
+    confirmOpen: false,
     savedRestaurant: {},
     steps: [
       {
@@ -41,8 +45,8 @@ export class AdminPanel extends Component {
     restaurantAddress: "",
     restaurantCategory: "",
     restaurantPhone: "",
-    tableCount: 0,
-    tableCapacity: 0,
+    tableCount: null,
+    tableCapacity: null,
     imageFile: null,
   };
 
@@ -86,7 +90,16 @@ export class AdminPanel extends Component {
                 {restaurant.restaurantAddress}
               </Item.Description>
               <Item.Extra>
-                <Button color="red" floated="right">
+                <Button
+                  onClick={() =>
+                    this.setState({
+                      deleteRestaurantId: restaurant.restaurantId,
+                      confirmOpen: true,
+                    })
+                  }
+                  color="red"
+                  floated="right"
+                >
                   Restoranı Sil
                 </Button>
               </Item.Extra>
@@ -164,7 +177,16 @@ export class AdminPanel extends Component {
                   phoneNumber: this.state.restaurantPhone,
                 })
                 .then((response) =>
-                  this.setState({ step: 2, savedRestaurant: response.data })
+                  this.setState({
+                    step: 2,
+                    restaurantName: null,
+                    restaurantCity: null,
+                    restaurantAddress: null,
+                    restaurantCategory: null,
+                    restaurantPhone: null,
+                    savedRestaurant: response.data,
+                    restaurants: [...this.state.restaurants, response.data],
+                  })
                 )
                 .catch((error) => console.log(error));
             }}
@@ -208,7 +230,13 @@ export class AdminPanel extends Component {
                     "/" +
                     this.state.savedRestaurant.restaurantId
                 )
-                .then(() => this.setState({ step: 3 }))
+                .then(() =>
+                  this.setState({
+                    step: 3,
+                    tableCapacity: null,
+                    tableCount: null,
+                  })
+                )
                 .catch((error) => console.log(error));
             }}
           >
@@ -296,6 +324,22 @@ export class AdminPanel extends Component {
     );
   };
 
+  handleRestaurantDelete = () => {
+    axios
+      .delete(deleteRestaurantUrl + this.state.deleteRestaurantId)
+      .then((response) => {
+        let updatedRestaurants = this.state.restaurants.filter(
+          (restaurant) =>
+            restaurant.restaurantId !== this.state.deleteRestaurantId
+        );
+        this.setState({
+          confirmOpen: false,
+          restaurants: updatedRestaurants,
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
   render() {
     return (
       <Grid>
@@ -313,6 +357,14 @@ export class AdminPanel extends Component {
               onClick={() => this.setState({ addRestaurantModalOpen: true })}
             />
           </Grid.Column>
+          <Confirm
+            open={this.state.confirmOpen}
+            onCancel={() => this.setState({ confirmOpen: false })}
+            onConfirm={this.handleRestaurantDelete}
+            cancelButton="İptal"
+            confirmButton="Evet"
+            content="Restoran bilgilerini silmek istediğinizden emin misiniz?"
+          />
           {this.renderAddRestaurantModal()}
         </Grid.Row>
       </Grid>

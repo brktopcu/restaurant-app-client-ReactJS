@@ -38,6 +38,8 @@ export const getFavouriteRestaurantsUrl = rootUrl + "/api/restaurant/favourite";
 export const deleteFavouriteRestaurantUrl =
   rootUrl + "/api/restaurant/favourite/delete/";
 
+export const deleteRestaurantUrl = rootUrl + "/api/restaurant/delete/";
+
 export const newRestaurantUrl = rootUrl + "/api/restaurant";
 
 export const saveMultipleTablesUrl = rootUrl + "/api/table/multiple/";
