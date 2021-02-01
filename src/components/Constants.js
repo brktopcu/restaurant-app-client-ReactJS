@@ -45,3 +45,5 @@ export const newRestaurantUrl = rootUrl + "/api/restaurant";
 export const saveMultipleTablesUrl = rootUrl + "/api/table/multiple/";
 
 export const saveRestaurantThumbnail = rootUrl + "/api/restaurant/thumbnail/";
+
+export const getAllPicturesUrl = rootUrl + "/api/restaurant/getAllPictures/";

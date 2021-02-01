@@ -12,7 +12,7 @@ import {
   Modal,
 } from "semantic-ui-react";
 import axios from "axios";
-import { getRestaurantByIdUrl } from "./Constants";
+import { getAllPicturesUrl, getRestaurantByIdUrl } from "./Constants";
 import Comments from "./Comments";
 import Reservation from "./Reservation";
 
@@ -22,6 +22,8 @@ export class RestaurantDetails extends Component {
     loading: false,
     notFound: false,
     reservationModalOpen: false,
+    pictures: [],
+    picturesModalOpen: false,
   };
 
   componentDidMount() {
@@ -35,6 +37,12 @@ export class RestaurantDetails extends Component {
               loading: false,
               notFound: false,
             });
+            axios
+              .get(
+                getAllPicturesUrl + this.state.selectedRestaurant.restaurantId
+              )
+              .then((response) => this.setState({ pictures: response.data }))
+              .catch((error) => console.log(error));
           },
           (error) => {
             this.setState({ loading: false, notFound: true });
@@ -43,6 +51,28 @@ export class RestaurantDetails extends Component {
     });
   }
 
+  renderPicturesModal = () => {
+    if (this.state.pictures.length > 0) {
+      return (
+        <Modal
+          basic
+          onClose={() => this.setState({ picturesModalOpen: false })}
+          open={this.state.picturesModalOpen}
+          size="small"
+        >
+          <Modal.Content>
+            {this.state.pictures.map((picture) => (
+              <>
+                <Image src={`data:image/jpeg;base64,${picture}`} />
+                <Divider />
+              </>
+            ))}
+          </Modal.Content>
+        </Modal>
+      );
+    }
+  };
+
   render() {
     return (
       <div>
@@ -50,19 +80,37 @@ export class RestaurantDetails extends Component {
           <Grid>
             <Grid.Row stretched>
               <Grid.Column width="10">
-                <Image src="/no-image.jpg" />
+                <Image
+                  src={
+                    this.state.pictures[0]
+                      ? `data:image/jpeg;base64,${this.state.pictures[0]}`
+                      : "/no-image.jpg"
+                  }
+                />
               </Grid.Column>
 
               <Grid.Column width="6">
-                <Image src="/no-image.jpg" />
+                <Image
+                  src={
+                    this.state.pictures[1]
+                      ? `data:image/jpeg;base64,${this.state.pictures[1]}`
+                      : "/no-image.jpg"
+                  }
+                />
                 <br />
-                <Image src="/no-image.jpg" />
+                <Image
+                  src={
+                    this.state.pictures[2]
+                      ? `data:image/jpeg;base64,${this.state.pictures[2]}`
+                      : "/no-image.jpg"
+                  }
+                />
                 <Label
                   color="red"
                   attached="bottom right"
                   as="a"
                   onClick={() => {
-                    console.log("Label clicked.");
+                    this.setState({ picturesModalOpen: true });
                   }}
                 >
                   Diğer fotoğrafları görüntüle...
@@ -129,6 +177,7 @@ export class RestaurantDetails extends Component {
         <Divider />
 
         <Comments restaurantId={this.props.match.params.restaurantId} />
+        {this.renderPicturesModal()}
       </div>
     );
   }
